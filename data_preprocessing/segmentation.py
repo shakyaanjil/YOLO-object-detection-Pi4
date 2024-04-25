@@ -44,6 +44,27 @@ def filter_image():
         new_path = os.path.join(no_annotation_folder, image)
         shutil.move(original_path, new_path)  
 
+def check_annotation():
+    empty_files = []
+    non_empty_files = []
+    for filename in os.listdir(annotation_folder):
+        if filename.endswith('.txt'): 
+            file_path = os.path.join(annotation_folder, filename)
+            if os.path.getsize(file_path) == 0:
+                empty_files.append(filename)
+            else:
+                with open(file_path, 'r') as file:
+                    content = file.read().strip()
+                    if not content:  
+                        empty_files.append(filename)
+                    else:
+                        non_empty_files.append(filename)
+    print(f"Empty files ({len(empty_files)}):")
+    for file in empty_files:
+        print('this file is empty:',file)
+
+
 segmentation()
 filter_image()
+check_annotation()
 
