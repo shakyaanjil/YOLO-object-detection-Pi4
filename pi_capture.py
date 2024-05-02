@@ -29,6 +29,12 @@ def handle_detections(frame, bbox, labels, confidences, target_labels):
         return True, detected_objects
     return False, None
 
+def calculate_distance_by_width(focal_length, real_width, perceived_width):
+    if perceived_width == 0:
+        return float('inf') 
+    return (focal_length * real_width) / perceived_width
+focal_length = 579.217877094  # focal length in pixels (depends on the camera)
+
 cap = cv2.VideoCapture(0)  
 
 while True:
