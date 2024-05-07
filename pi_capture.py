@@ -12,6 +12,13 @@ os.makedirs(save_dir, exist_ok=True)
 
 target_labels = ['Human', 'Pallet', 'Cone', 'Box'] # add classes 
 
+real_widths = {
+    'Human': 0.3,  # width in meters
+    'Pallet': 0.5,
+    'Cone': 0.05,
+    'Box': 0.4,
+}
+
 def handle_detections(frame, bbox, labels, confidences, target_labels):
     detected_objects = {}
     for label, confidence in zip(labels, confidences):
