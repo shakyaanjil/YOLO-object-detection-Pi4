@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 from cvlib.object_detection import YOLO
 
 weights = "C:/Users/Anjil/Documents/pi_phase1/4ClassWeights/yolov4-tiny-obj_best.weights"
@@ -43,6 +44,8 @@ def calculate_distance_by_width(focal_length, real_width, perceived_width):
 focal_length = 579.217877094  # focal length in pixels (depends on the camera)
 
 cap = cv2.VideoCapture(0)  
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 416)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 416)
 
 while True:
     ret, frame = cap.read()
