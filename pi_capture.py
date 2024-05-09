@@ -53,10 +53,13 @@ while True:
         break
     bbox, labels, confs = yolo.detect_objects(frame)
     for box, label, conf in zip(bbox, labels, confs):
+        real_width = real_widths.get(label, 0)
         x, y, w, h = box
-        yolo.draw_bbox(frame, [box], [label], [conf])
-        detected, detected_objects = handle_detections(frame, bbox, labels, confs, target_labels)
-
+        distance = calculate_distance_by_width(focal_length, real_width, w)
+        print(f"Detected {label} at distance: {distance:.2f} meters")
+        if distance < 0.4:
+            yolo.draw_bbox(frame, [box], [label], [conf])
+            detected, detected_objects = handle_detections(frame, bbox, labels, confs, target_labels)
     cv2.imshow('frame:', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
