@@ -58,3 +58,16 @@ class Motor():
             sleep(t)
         else:
           print("Motor start not allowed due to delay")
+
+    def stop(self,t=0):
+        print("Stopping motor")
+        self.pwmA.ChangeDutyCycle(0)
+        self.pwmB.ChangeDutyCycle(0)
+        self.last_stop_time = time()  # Record the time when the motor was last stopped
+        self.allow_start = False  # Disable motor start
+        # Schedule re-enablement of motor start after delay
+        threading.Timer(self.start_delay, self.enable_start).start()
+
+    def enable_start(self):
+        print("Motor start allowed")
+        self.allow_start = True  # Allow motor start
