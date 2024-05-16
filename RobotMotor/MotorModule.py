@@ -64,6 +64,8 @@ class Motor():
         self.pwmA.ChangeDutyCycle(0)
         self.pwmB.ChangeDutyCycle(0)
         self.last_stop_time = time()  # Record the time when the motor was last stopped
+        self.allow_start = False  # Disable motor start
+        # Schedule re-enablement of motor start after delay
         threading.Timer(self.start_delay, self.enable_start).start()
 
     def enable_start(self):
