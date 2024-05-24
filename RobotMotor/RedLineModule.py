@@ -39,3 +39,31 @@ class RedLineDetector:
                     return frame, True
 
         return frame, False
+    
+# Define the focal length and height of the red line
+focal_length = 579
+red_line_height = 0.175
+
+# Create an instance of the Camera class
+camera = Camera(0)
+
+# Create an instance of the RedLineDetector class
+detector = RedLineDetector(focal_length, red_line_height)
+
+while True:
+    frame = camera.get_frame()
+    if frame is None:
+        break
+
+    frame_with_red_line, red_line_detected = detector.detect_red_line(frame)
+
+    cv2.imshow('Video', frame_with_red_line)
+    if cv2.waitKey(30) & 0xFF == ord('q'):
+        break
+
+    if red_line_detected:
+        print("停止 Stop command assigned")
+
+# Release the camera and close all windows
+camera.release()
+cv2.destroyAllWindows()
