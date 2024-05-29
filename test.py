@@ -23,3 +23,8 @@ def mov(direction):
     elif direction == 'right':
         motor.move(0.3, -0.5, 0.1)
     return 'Moved ' + direction
+
+@app.route('/stop')
+def stop():
+    motor.stop(0.1)
+    return 'Stopped'
