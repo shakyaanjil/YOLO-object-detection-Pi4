@@ -15,6 +15,10 @@ yolo_labels = "obj.names"
 target_labels = ['Human', 'Forklift', 'Cone', 'Pallet']  # Adjust this list based on your specific targets
 object_detector = ObjectDetector(yolo_weights, yolo_config, yolo_labels, target_labels)
 
+# Initialize red line detector
+focal_length = 579.217877094  # Adjust this value based on your camera setup
+red_line_height = 0.175  # Adjust this value based on the height of your red line in the frame
+
 @app.route('/')
 def index():
     return render_template('index.html')
