@@ -50,3 +50,11 @@ def detect_objects_and_redline(frame):
     frame, red_line_detected = red_line_detector.detect_red_line(frame)
 
     return object_detected, red_line_detected
+
+def override_control_if_necessary(object_detected, red_line_detected):
+    if object_detected:
+        print("Objects detected, stopping the vehicle.")
+        motor.stop(0.1)
+    elif red_line_detected:
+        print("Red line detected, stopping the vehicle.")
+        motor.stop(0.1)
