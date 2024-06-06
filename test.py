@@ -18,6 +18,7 @@ object_detector = ObjectDetector(yolo_weights, yolo_config, yolo_labels, target_
 # Initialize red line detector
 focal_length = 579.217877094  # Adjust this value based on your camera setup
 red_line_height = 0.175  # Adjust this value based on the height of your red line in the frame
+red_line_detector = RedLineDetector(focal_length, red_line_height)
 
 @app.route('/')
 def index():
@@ -39,3 +40,13 @@ def mov(direction):
 def stop():
     motor.stop(0.1)
     return 'Stopped'
+
+def detect_objects_and_redline(frame):
+    # Object detection
+    bbox, labels, confidences = object_detector.detect_objects(frame)
+    object_detected = any(label in target_labels for label in labels)
+
+    # Red line detection
+    frame, red_line_detected = red_line_detector.detect_red_line(frame)
+
+    return object_detected, red_line_detected
