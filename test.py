@@ -58,3 +58,24 @@ def override_control_if_necessary(object_detected, red_line_detected):
     elif red_line_detected:
         print("Red line detected, stopping the vehicle.")
         motor.stop(0.1)
+
+@app.route('/video_feed')
+def video_feed():
+    while True:
+        ret, frame = camera.read_frame()
+        if not ret:
+            break
+
+        object_detected, red_line_detected = detect_objects_and_redline(frame)
+        override_control_if_necessary(object_detected, red_line_detected)
+
+        # Display the frame with detected objects and red line
+        cv2.imshow('frame', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    camera.release()
+    cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port = 5002, threaded=True)
