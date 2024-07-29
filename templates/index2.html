@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Vehicle Control</title>
+</head>
+<body>
+    <h1>Robotic Vehicle Control</h1>
+    <img src="{{ url_for('video_feed') }}" alt="Video Stream" width="640" height="480">
+    <div>
+        <button id="up" onmousedown="startMove('up')" onmouseup="stopMove()">Up</button>
+        <button id="down" onmousedown="startMove('down')" onmouseup="stopMove()">Down</button>
+        <button id="left" onmousedown="startMove('left')" onmouseup="stopMove()">Left</button>
+        <button id="right" onmousedown="startMove('right')" onmouseup="stopMove()">Right</button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var keyInterval;
+
+        function startMove(direction) {
+            $.post('/control', {'direction': direction});
+            keyInterval = setInterval(function() {
+                $.post('/control', {'direction': direction});
+            }, 100); // Adjust this interval as needed
+        }
+
+        function stopMove() {
+            clearInterval(keyInterval);
+            $.post('/stop');
+        }
+    </script>
+</body>
+</html>
